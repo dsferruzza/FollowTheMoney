@@ -5,7 +5,7 @@
 
 	<h1>Category</h1>
 
-	@form(action = routes.Category.add) {
+	@form(routes.Category.add) {
 		@inputText(addForm("name"))
 		<input type="submit" value="Add">
 	}
@@ -14,12 +14,18 @@
 		<thead>
 			<tr>
 				<th>Name</th>
+				<th></th>
 			</tr>
 		</thead>
 		<tbody>
 			@for(c <- categories) {
 				<tr>
 					<td>@c.name</td>
+					<td>
+						@form(routes.Category.delete(c.id)) {
+							<button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> Delete</button>
+						}
+					</td>
 				</tr>	
 			}
 		</tbody>

@@ -26,4 +26,6 @@ object Category extends Controller {
     )
   }
 
+  def delete(id: Long) = TODO
+
 }

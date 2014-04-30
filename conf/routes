@@ -5,6 +5,7 @@
 GET     /                           controllers.Application.index
 GET     /category                   controllers.Category.index
 POST    /category                   controllers.Category.add
+POST    /category/:id/delete        controllers.Category.delete(id: Long)
 
 # Assets
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
