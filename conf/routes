@@ -4,6 +4,7 @@
 
 GET     /                           controllers.Application.index
 GET     /category                   controllers.Category.index
+POST    /category                   controllers.Category.add
 
 # Assets
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

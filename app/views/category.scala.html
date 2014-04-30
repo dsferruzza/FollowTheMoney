@@ -1,5 +1,13 @@
+@(addForm: Form[String])
+@import helper._
+
 @main("Category") {
 
 	<h1>Category</h1>
+
+	@form(action = routes.Category.add) {
+		@inputText(addForm("name"))
+		<input type="submit" value="Add">
+	}
 
 }
