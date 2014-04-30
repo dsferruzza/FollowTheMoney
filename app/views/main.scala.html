@@ -5,9 +5,24 @@
 	<head>
 		<title>@title</title>
 		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
 		<link rel="stylesheet" href="@routes.WebJarAssets.at(WebJarAssets.locate("css/bootstrap.min.css"))">
+		<style type="text/css">
+			body { padding-top: 70px; }
+		</style>
 	</head>
 	<body>
-		@content
+		<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+			<div class="container">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="@routes.Application.index">Follow The Money</a>
+				</div>
+			</div>
+		</nav>
+
+		<div class="container">
+			@content
+		</div>
 	</body>
 </html>
