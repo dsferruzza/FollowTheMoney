@@ -12,13 +12,13 @@ object Category extends Controller {
   )
 
   def index = Action {
-    Ok(views.html.category(categoryForm))
+    Ok(views.html.category(models.Category.getAll, categoryForm))
   }
 
   def add = Action { implicit request =>
     categoryForm.bindFromRequest.fold(
       errors => {
-        BadRequest(views.html.category(errors))
+        BadRequest(views.html.category(models.Category.getAll, errors))
       },
       data => {
         ???

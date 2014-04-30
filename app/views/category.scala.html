@@ -1,4 +1,4 @@
-@(addForm: Form[String])
+@(categories: Seq[Category], addForm: Form[String])
 @import helper._
 
 @main("Category") {
@@ -9,5 +9,20 @@
 		@inputText(addForm("name"))
 		<input type="submit" value="Add">
 	}
+
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Name</th>
+			</tr>
+		</thead>
+		<tbody>
+			@for(c <- categories) {
+				<tr>
+					<td>@c.name</td>
+				</tr>	
+			}
+		</tbody>
+	</table>
 
 }
