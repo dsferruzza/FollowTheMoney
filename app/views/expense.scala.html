@@ -1,4 +1,4 @@
-@(expenses: Seq[Expense])
+@(expenses: Seq[(Expense, Option[Category])])
 
 @main("Expense") {
 	
@@ -16,10 +16,10 @@
 			</tr>
 		</thead>
 		<tbody>
-			@for(e <- expenses) {
+			@for(expense <- expenses ; val e = expense._1 ; val c = expense._2) {
 				<tr>
 					<td>@e.readableDate</td>
-					<td>@e.id_category</td>
+					<td title="@e.id_category">@if(!c.isEmpty){@c.get.name}</td>
 					<td>@e.description</td>
 					<td>@e.amount</td>
 				</tr>	

@@ -22,10 +22,25 @@ object Expense {
 			case id~date~id_category~description~amount => Expense(id, date, id_category, description, amount)
 		}
 	}
+
+	val withCategory = Expense.simple ~ (Category.simple.?) map {
+		case expense~category => (expense, category)
+	}
 	
 	def getAll(): List[Expense] = {
 		DB.withConnection { implicit connection =>
-			SQL("SELECT id, date, id_category, description, amount FROM expense ORDER BY date DESC").as(Expense.simple.*)
+			SQL("SELECT id, date, id_category, description, amount FROM expense ORDER BY date DESC, id ASC").as(Expense.simple.*)
+		}
+	}
+
+	def getAllWithCategory(): List[(Expense, Option[Category])] = {
+	DB.withConnection { implicit connection =>
+		SQL("""
+			SELECT e.id, e.date, e.id_category, e.description, e.amount, c.id, c.name
+			FROM expense AS e
+			LEFT JOIN category AS c ON c.id = e.id_category
+			ORDER BY e.date DESC, e.id ASC
+			""").as(Expense.withCategory.*)
 		}
 	}
 }
