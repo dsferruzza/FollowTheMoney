@@ -56,6 +56,17 @@ object Expense extends Controller {
 		Ok(views.html.expenseEdit(id, form, cat))
 	}
 
-	def edit(id: Long) = TODO
+	def edit(id: Long) = Action { implicit request =>
+		expenseForm.bindFromRequest.fold(
+			errors => {
+				val cat = models.Category.getAll.map(c => (c.id.toString, c.name))
+				BadRequest(views.html.expenseEdit(id, errors, cat))
+			},
+			data => {
+				models.Expense.edit(id, data.date, data.id_category, data.description, data.amount.toFloat)
+				Redirect(routes.Expense.index)
+			}
+		)
+	}
 
 }

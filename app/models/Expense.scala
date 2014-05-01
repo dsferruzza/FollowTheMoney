@@ -62,4 +62,16 @@ object Expense {
 			).executeInsert()
 		}
 	}
+
+	def edit(id: Long, date: DateTime, id_category: Long, description: Option[String], amount: Float): Boolean = {
+		DB.withConnection { implicit connection =>
+			SQL("UPDATE expense SET date = {date}, id_category = {id_category}, description = {description}, amount = {amount} WHERE id = {id}").on(
+				'id -> id,
+				'date -> date,
+				'id_category -> id_category,
+				'description -> description,
+				'amount -> amount
+			).execute()
+		}
+	}
 }
