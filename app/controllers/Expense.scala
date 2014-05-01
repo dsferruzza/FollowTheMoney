@@ -11,9 +11,10 @@ object Expense extends Controller {
 
 	case class ExpenseData(date: DateTime, id_category: Long, description: Option[String], amount: BigDecimal)
 
+	val defaultDate = new DateTime()
 	val expenseForm = Form(
 		mapping(
-			"date" -> jodaDate,
+			"date" -> default(jodaDate, defaultDate),
 			"id_category" -> longNumber,
 			"description" -> optional(text),
 			"amount" -> bigDecimal
