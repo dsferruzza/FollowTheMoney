@@ -10,7 +10,7 @@
 
 	<div class="well">
 		<form method="post" action="@routes.Category.add" class="form-inline" role="form">
-			@bootstrapInputText(addForm("name"), 'required -> None, 'autofocus -> None, '_label -> "Name")
+			@inputText(addForm("name"), 'class -> "form-control", 'required -> None, 'autofocus -> None, '_label -> "Name", 'placeholder -> "Name")
 			<button type="submit" class="btn btn-success">Add</button>
 		</form>
 	</div>

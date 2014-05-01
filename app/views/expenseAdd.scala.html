@@ -9,10 +9,10 @@
 	</header>
 
 	<form method="post" action="@routes.Expense.add" class="form-horizontal" role="form">
-		@inputDate(addForm("date"), '_label -> "Date")
-		@select(addForm("id_category"), categories, '_label -> "Category")
-		@bootstrapInputText(addForm("description"), '_label -> "Description")
-		@bootstrapInputNumber(addForm("amount"), '_label -> "Amount")
+		@inputDate(addForm("date"), 'class -> "form-control", '_label -> "Date", 'placeholder -> "Date")
+		@select(addForm("id_category"), categories, 'class -> "form-control", '_label -> "Category", 'placeholder -> "Category")
+		@inputText(addForm("description"), 'class -> "form-control", '_label -> "Description", 'placeholder -> "Description")
+		@inputNumber(addForm("amount"), 'class -> "form-control", '_label -> "Amount", 'placeholder -> "Amount")
 		<div class="form-group">
 			<div class="col-sm-offset-2 col-sm-10">
 				<button type="submit" class="btn btn-success">Add</button>
