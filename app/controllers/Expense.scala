@@ -5,6 +5,7 @@ import play.api.mvc._
 import play.api.data._
 import play.api.data.Forms._
 import play.api.data.validation._
+import play.api.data.validation.Constraints._
 import org.joda.time.DateTime
 
 object Expense extends Controller {
@@ -17,7 +18,7 @@ object Expense extends Controller {
 			"date" -> default(jodaDate, defaultDate),
 			"id_category" -> longNumber,
 			"description" -> optional(text),
-			"amount" -> bigDecimal
+			"amount" -> bigDecimal.verifying(min(BigDecimal(0)))
 		)(ExpenseData.apply)(ExpenseData.unapply)
 	)
 
