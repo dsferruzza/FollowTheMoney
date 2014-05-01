@@ -21,4 +21,12 @@ object Category {
       SQL("SELECT id, name FROM category ORDER BY name ASC").as(Category.simple.*)
     }
   }
+
+  def create(name: String): Option[Long] = {
+    DB.withConnection { implicit connection =>
+      SQL("INSERT INTO category (name) VALUES ({name})").on(
+        'name -> name
+      ).executeInsert()
+    }
+  }
 }

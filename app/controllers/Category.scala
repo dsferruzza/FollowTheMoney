@@ -21,7 +21,8 @@ object Category extends Controller {
         BadRequest(views.html.category(models.Category.getAll, errors))
       },
       data => {
-        ???
+        models.Category.create(data)
+        Redirect(routes.Category.index)
       }
     )
   }
