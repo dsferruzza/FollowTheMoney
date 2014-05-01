@@ -1,5 +1,9 @@
 @(field: play.api.data.Field, args: (Symbol,Any)*)(implicit handler: FieldConstructor, lang: play.api.i18n.Lang)
 
+@placeholder = @{
+	args.find(_._1 == '_label).map(_._2)
+}
+
 @input(field, args:_*) { (id, name, value, htmlArgs) =>
-	<input type="text" id="@id" name="@name" class="form-control" @toHtmlArgs(htmlArgs)>
+	<input type="text" id="@id" name="@name" class="form-control" @if(!placeholder.isEmpty){ placeholder="@placeholder.get"} @toHtmlArgs(htmlArgs)>
 }
