@@ -1,0 +1,6 @@
+@(elements: helper.FieldElements)
+
+<div class="form-group@if(elements.hasErrors){ error}" title="@elements.infos(elements.lang).mkString(", ")">
+	<label class="sr-only" for="@elements.id">@elements.label</label>
+	@elements.input
+</div>

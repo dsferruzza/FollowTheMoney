@@ -1,14 +1,15 @@
 @(categories: Seq[Category], addForm: Form[String])
 @import helper._
+@import helpers.BootstrapInlineHelper._
 
 @main("Category") {
 
 	<h1>Category</h1>
 
-	@form(routes.Category.add) {
-		@inputText(addForm("name"))
-		<input type="submit" value="Add">
-	}
+	<form method="post" action="@routes.Category.add" class="form-inline" role="form">
+		@bootstrapInputText(addForm("name"), 'required -> None)
+		<button type="submit" class="btn btn-success">Add</button>
+	</form>
 
 	<table class="table">
 		<thead>
