@@ -26,15 +26,13 @@ object Expense extends Controller {
 	}
 
 	def addForm = Action {
-		val cat = models.Category.getAll.map(c => (c.id.toString, c.name))
-		Ok(views.html.expenseAdd(expenseForm, cat))
+		Ok(views.html.expenseAdd(expenseForm, models.Category.getAllForSelect))
 	}
 
 	def add = Action { implicit request =>
 		expenseForm.bindFromRequest.fold(
 			errors => {
-				val cat = models.Category.getAll.map(c => (c.id.toString, c.name))
-				BadRequest(views.html.expenseAdd(errors, cat))
+				BadRequest(views.html.expenseAdd(errors, models.Category.getAllForSelect))
 			},
 			data => {
 				models.Expense.create(data.date, data.id_category, data.description, data.amount.toFloat)
@@ -44,7 +42,6 @@ object Expense extends Controller {
 	}
 
 	def editForm(id: Long) = Action {
-		val cat = models.Category.getAll.map(c => (c.id.toString, c.name))
 		val expense = models.Expense.findById(id)
 		val form = expense match {
 			case Some(e) => {
@@ -53,14 +50,13 @@ object Expense extends Controller {
 			}
 			case None => expenseForm
 		}
-		Ok(views.html.expenseEdit(id, form, cat))
+		Ok(views.html.expenseEdit(id, form, models.Category.getAllForSelect))
 	}
 
 	def edit(id: Long) = Action { implicit request =>
 		expenseForm.bindFromRequest.fold(
 			errors => {
-				val cat = models.Category.getAll.map(c => (c.id.toString, c.name))
-				BadRequest(views.html.expenseEdit(id, errors, cat))
+				BadRequest(views.html.expenseEdit(id, errors, models.Category.getAllForSelect))
 			},
 			data => {
 				models.Expense.edit(id, data.date, data.id_category, data.description, data.amount.toFloat)

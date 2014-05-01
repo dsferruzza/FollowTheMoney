@@ -22,6 +22,8 @@ object Category {
 		}
 	}
 
+	def getAllForSelect(): List[(String, String)] = getAll.map(c => (c.id.toString, c.name))
+
 	def create(name: String): Option[Long] = {
 		DB.withConnection { implicit connection =>
 			SQL("INSERT INTO category (name) VALUES ({name})").on(
