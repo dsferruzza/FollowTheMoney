@@ -1,0 +1,23 @@
+@(addForm: Form[controllers.Expense.ExpenseData], categories: Seq[(String, String)])
+@import helper._
+@import helpers.bootstrapHorizontalHelper._
+
+@main("Expense") {
+	
+	<header class="page-header">
+		<h1>Add an expense</h1>
+	</header>
+
+	<form method="post" action="@routes.Expense.add" class="form-horizontal" role="form">
+		@inputDate(addForm("date"), '_label -> "Date")
+		@select(addForm("id_category"), categories, '_label -> "Category")
+		@bootstrapInputText(addForm("description"), '_label -> "Description")
+		@bootstrapInputNumber(addForm("amount"), '_label -> "Amount")
+		<div class="form-group">
+			<div class="col-sm-offset-2 col-sm-10">
+				<button type="submit" class="btn btn-success">Add</button>
+			</div>
+		</div>
+	</form>
+
+}
