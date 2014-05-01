@@ -1,4 +1,4 @@
-@(addForm: Form[controllers.Expense.ExpenseData], categories: Seq[(String, String)])
+@(form: Form[controllers.Expense.ExpenseData], categories: Seq[(String, String)])
 
 @main("Add an expense") {
 	
@@ -6,6 +6,6 @@
 		<h1>Add an expense</h1>
 	</header>
 
-	@expenseForm(addForm, categories, routes.Expense.add)
+	@expenseForm(form, categories, routes.Expense.add)
 
 }
