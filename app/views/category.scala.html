@@ -15,7 +15,7 @@
 		</form>
 	</div>
 
-	<table class="table">
+	<table class="table table-bordered table-hover">
 		<thead>
 			<tr>
 				<th>Name</th>
@@ -28,7 +28,7 @@
 					<td>@c.name</td>
 					<td>
 						@form(routes.Category.delete(c.id)) {
-							<button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> Delete</button>
+							<button type="submit" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash"></span> Delete</button>
 						}
 					</td>
 				</tr>	
