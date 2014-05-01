@@ -9,8 +9,8 @@ CREATE TABLE category (
 
 CREATE TABLE expense (
 	id serial NOT NULL,
-	date date DEFAULT NULL,
-	id_category integer DEFAULT NULL,
+	date date NOT NULL,
+	id_category integer NOT NULL,
 	description text DEFAULT NULL,
 	amount real NOT NULL,
 	PRIMARY KEY (id),

@@ -48,7 +48,7 @@ object Expense extends Controller {
 		val expense = models.Expense.findById(id)
 		val form = expense match {
 			case Some(e) => {
-				val ed = new ExpenseData(e.date.get, e.id_category.get, e.description, BigDecimal(e.amount))
+				val ed = new ExpenseData(e.date, e.id_category, e.description, BigDecimal(e.amount))
 				expenseForm.fill(ed)
 			}
 			case None => expenseForm
