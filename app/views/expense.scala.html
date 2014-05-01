@@ -1,4 +1,5 @@
 @(expenses: Seq[(Expense, Option[Category])])
+@import helper._
 
 @main("Expense") {
 	
@@ -25,7 +26,12 @@
 					<td title="@e.id_category">@if(!c.isEmpty){@c.get.name}</td>
 					<td>@e.description</td>
 					<td>@e.amount</td>
-					<td><a href="@routes.Expense.editForm(e.id)" class="btn btn-warning"><span class="glyphicon glyphicon-pencil"></span> Edit</a></td>
+					<td>
+						@form(routes.Expense.delete(e.id)) {
+							<a href="@routes.Expense.editForm(e.id)" class="btn btn-warning"><span class="glyphicon glyphicon-pencil"></span> Edit</a>
+							<button type="submit" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash"></span> Delete</button>
+						}
+					</td>
 				</tr>	
 			}
 		</tbody>

@@ -65,4 +65,9 @@ object Expense extends Controller {
 		)
 	}
 
+	def delete(id: Long) = Action {
+		models.Expense.delete(id)
+		Redirect(routes.Expense.index)
+	}
+
 }

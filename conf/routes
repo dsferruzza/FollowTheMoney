@@ -13,6 +13,7 @@ GET     /expense/add                controllers.Expense.addForm
 POST    /expense/add                controllers.Expense.add
 GET     /expense/:id/edit           controllers.Expense.editForm(id: Long)
 POST    /expense/:id/edit           controllers.Expense.edit(id: Long)
+POST    /expense/:id/delete         controllers.Expense.delete(id: Long)
 
 # Assets
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
