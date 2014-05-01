@@ -9,21 +9,11 @@ import org.joda.time.DateTime
 
 object Expense extends Controller {
 
-	case class ExpenseData(date: String, id_category: Long, description: Option[String], amount: BigDecimal)
-
-	val dateCheckConstraint: Constraint[String] = Constraint("constraints.datecheck")({ plainText =>
-		try {
-			new DateTime(plainText)
-			Valid
-		}
-		catch {
-			case e: IllegalArgumentException => Invalid(e.getMessage)
-		}
-	})
+	case class ExpenseData(date: DateTime, id_category: Long, description: Option[String], amount: BigDecimal)
 
 	val expenseForm = Form(
 		mapping(
-			"date" -> nonEmptyText.verifying(dateCheckConstraint),
+			"date" -> jodaDate,
 			"id_category" -> longNumber,
 			"description" -> optional(text),
 			"amount" -> bigDecimal
