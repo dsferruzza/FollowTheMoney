@@ -29,4 +29,12 @@ object Category {
       ).executeInsert()
     }
   }
+
+  def delete(id: Long): Boolean = {
+    DB.withConnection { implicit connection =>
+      SQL("DELETE FROM category WHERE id = {id}").on(
+        'id -> id
+      ).execute()
+    }
+  }
 }

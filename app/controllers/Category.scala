@@ -27,6 +27,9 @@ object Category extends Controller {
     )
   }
 
-  def delete(id: Long) = TODO
+  def delete(id: Long) = Action {
+  	models.Category.delete(id)
+  	Redirect(routes.Category.index)
+  }
 
 }
