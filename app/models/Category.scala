@@ -9,32 +9,32 @@ import anorm.SqlParser._
 case class Category(id: Long, name: String)
 
 object Category {
-  val simple = {
-    get[Long]("category.id") ~
-    get[String]("category.name") map {
-      case id~name => Category(id, name)
-    }
-  }
-  
-  def getAll(): List[Category] = {
-    DB.withConnection { implicit connection =>
-      SQL("SELECT id, name FROM category ORDER BY name ASC").as(Category.simple.*)
-    }
-  }
+	val simple = {
+		get[Long]("category.id") ~
+		get[String]("category.name") map {
+			case id~name => Category(id, name)
+		}
+	}
+	
+	def getAll(): List[Category] = {
+		DB.withConnection { implicit connection =>
+			SQL("SELECT id, name FROM category ORDER BY name ASC").as(Category.simple.*)
+		}
+	}
 
-  def create(name: String): Option[Long] = {
-    DB.withConnection { implicit connection =>
-      SQL("INSERT INTO category (name) VALUES ({name})").on(
-        'name -> name
-      ).executeInsert()
-    }
-  }
+	def create(name: String): Option[Long] = {
+		DB.withConnection { implicit connection =>
+			SQL("INSERT INTO category (name) VALUES ({name})").on(
+				'name -> name
+			).executeInsert()
+		}
+	}
 
-  def delete(id: Long): Boolean = {
-    DB.withConnection { implicit connection =>
-      SQL("DELETE FROM category WHERE id = {id}").on(
-        'id -> id
-      ).execute()
-    }
-  }
+	def delete(id: Long): Boolean = {
+		DB.withConnection { implicit connection =>
+			SQL("DELETE FROM category WHERE id = {id}").on(
+				'id -> id
+			).execute()
+		}
+	}
 }

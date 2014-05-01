@@ -7,29 +7,29 @@ import play.api.data.Forms._
 
 object Category extends Controller {
 
-  val categoryForm = Form(
-    "name" -> nonEmptyText
-  )
+	val categoryForm = Form(
+		"name" -> nonEmptyText
+	)
 
-  def index = Action {
-    Ok(views.html.category(models.Category.getAll, categoryForm))
-  }
+	def index = Action {
+		Ok(views.html.category(models.Category.getAll, categoryForm))
+	}
 
-  def add = Action { implicit request =>
-    categoryForm.bindFromRequest.fold(
-      errors => {
-        BadRequest(views.html.category(models.Category.getAll, errors))
-      },
-      data => {
-        models.Category.create(data)
-        Redirect(routes.Category.index)
-      }
-    )
-  }
+	def add = Action { implicit request =>
+		categoryForm.bindFromRequest.fold(
+			errors => {
+				BadRequest(views.html.category(models.Category.getAll, errors))
+			},
+			data => {
+				models.Category.create(data)
+				Redirect(routes.Category.index)
+			}
+		)
+	}
 
-  def delete(id: Long) = Action {
-  	models.Category.delete(id)
-  	Redirect(routes.Category.index)
-  }
+	def delete(id: Long) = Action {
+		models.Category.delete(id)
+		Redirect(routes.Category.index)
+	}
 
 }
