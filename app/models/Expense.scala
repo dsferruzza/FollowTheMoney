@@ -44,6 +44,14 @@ object Expense {
 		}
 	}
 
+	def findById(id: Long): Option[Expense] = {
+		DB.withConnection { implicit connection =>
+			SQL("SELECT id, date, id_category, description, amount FROM expense WHERE id = {id}").on(
+				'id -> id
+			).as(Expense.simple.singleOpt)
+		}
+	}
+
 	def create(date: DateTime, id_category: Long, description: Option[String], amount: Float): Option[Long] = {
 		DB.withConnection { implicit connection =>
 			SQL("INSERT INTO expense (date, id_category, description, amount) VALUES ({date}, {id_category}, {description}, {amount})").on(

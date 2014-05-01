@@ -11,6 +11,8 @@ POST    /category/:id/delete        controllers.Category.delete(id: Long)
 GET     /expense                    controllers.Expense.index
 GET     /expense/add                controllers.Expense.addForm
 POST    /expense/add                controllers.Expense.add
+GET     /expense/:id/edit           controllers.Expense.editForm(id: Long)
+POST    /expense/:id/edit           controllers.Expense.edit(id: Long)
 
 # Assets
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

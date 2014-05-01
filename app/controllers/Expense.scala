@@ -43,4 +43,19 @@ object Expense extends Controller {
 		)
 	}
 
+	def editForm(id: Long) = Action {
+		val cat = models.Category.getAll.map(c => (c.id.toString, c.name))
+		val expense = models.Expense.findById(id)
+		val form = expense match {
+			case Some(e) => {
+				val ed = new ExpenseData(e.date.get, e.id_category.get, e.description, BigDecimal(e.amount))
+				expenseForm.fill(ed)
+			}
+			case None => expenseForm
+		}
+		Ok(views.html.expenseEdit(id, form, cat))
+	}
+
+	def edit(id: Long) = TODO
+
 }

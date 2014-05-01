@@ -1,0 +1,11 @@
+@(id: Long, form: Form[controllers.Expense.ExpenseData], categories: Seq[(String, String)])
+
+@main("Add an expense") {
+	
+	<header class="page-header">
+		<h1>Add an expense</h1>
+	</header>
+
+	@expenseForm(form, categories, routes.Expense.edit(id))
+
+}

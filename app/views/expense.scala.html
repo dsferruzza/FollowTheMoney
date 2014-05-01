@@ -15,6 +15,7 @@
 				<th>Category</th>
 				<th>Description</th>
 				<th>Amount</th>
+				<th></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -24,6 +25,7 @@
 					<td title="@e.id_category">@if(!c.isEmpty){@c.get.name}</td>
 					<td>@e.description</td>
 					<td>@e.amount</td>
+					<td><a href="@routes.Expense.editForm(e.id)" class="btn btn-warning"><span class="glyphicon glyphicon-pencil"></span> Edit</a></td>
 				</tr>	
 			}
 		</tbody>
