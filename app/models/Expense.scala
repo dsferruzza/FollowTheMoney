@@ -34,13 +34,24 @@ object Expense {
 	}
 
 	def getAllWithCategory(): List[(Expense, Option[Category])] = {
-	DB.withConnection { implicit connection =>
-		SQL("""
-			SELECT e.id, e.date, e.id_category, e.description, e.amount, c.id, c.name
-			FROM expense AS e
-			LEFT JOIN category AS c ON c.id = e.id_category
-			ORDER BY e.date DESC, e.id ASC
-			""").as(Expense.withCategory.*)
+		DB.withConnection { implicit connection =>
+			SQL("""
+				SELECT e.id, e.date, e.id_category, e.description, e.amount, c.id, c.name
+				FROM expense AS e
+				LEFT JOIN category AS c ON c.id = e.id_category
+				ORDER BY e.date DESC, e.id ASC
+				""").as(Expense.withCategory.*)
+		}
+	}
+
+	def create(date: DateTime, id_category: Long, description: Option[String], amount: Float): Option[Long] = {
+		DB.withConnection { implicit connection =>
+			SQL("INSERT INTO expense (date, id_category, description, amount) VALUES ({date}, {id_category}, {description}, {amount})").on(
+				'date -> date,
+				'id_category -> id_category,
+				'description -> description,
+				'amount -> amount
+			).executeInsert()
 		}
 	}
 }

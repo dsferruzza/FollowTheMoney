@@ -37,7 +37,8 @@ object Expense extends Controller {
 				BadRequest(views.html.expenseAdd(errors, cat))
 			},
 			data => {
-				???
+				models.Expense.create(data.date, data.id_category, data.description, data.amount.toFloat)
+				Redirect(routes.Expense.index)
 			}
 		)
 	}
