@@ -4,12 +4,16 @@
 
 @main("Category") {
 
-	<h1>Category</h1>
+	<header class="page-header">
+		<h1>Category</h1>
+	</header>
 
-	<form method="post" action="@routes.Category.add" class="form-inline" role="form">
-		@bootstrapInputText(addForm("name"), 'required -> None)
-		<button type="submit" class="btn btn-success">Add</button>
-	</form>
+	<div class="well">
+		<form method="post" action="@routes.Category.add" class="form-inline" role="form">
+			@bootstrapInputText(addForm("name"), 'required -> None, 'autofocus -> None, '_label -> "Name")
+			<button type="submit" class="btn btn-success">Add</button>
+		</form>
+	</div>
 
 	<table class="table">
 		<thead>
