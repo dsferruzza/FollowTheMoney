@@ -22,7 +22,7 @@ object Expense extends Controller {
 		)(ExpenseData.apply)(ExpenseData.unapply)
 	)
 
-	def index = Action {
+	def index(page: Int) = Action {
 		Ok(views.html.expense(models.Expense.getAllWithCategory))
 	}
 
@@ -37,7 +37,7 @@ object Expense extends Controller {
 			},
 			data => {
 				models.Expense.create(data.date, data.id_category, data.description, data.amount.toFloat)
-				Redirect(routes.Expense.index)
+				Redirect(routes.Expense.index())
 			}
 		)
 	}
@@ -61,14 +61,14 @@ object Expense extends Controller {
 			},
 			data => {
 				models.Expense.edit(id, data.date, data.id_category, data.description, data.amount.toFloat)
-				Redirect(routes.Expense.index)
+				Redirect(routes.Expense.index())
 			}
 		)
 	}
 
 	def delete(id: Long) = Action {
 		models.Expense.delete(id)
-		Redirect(routes.Expense.index)
+		Redirect(routes.Expense.index())
 	}
 
 }

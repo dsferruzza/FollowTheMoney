@@ -8,7 +8,7 @@ GET     /category                   controllers.Category.index
 POST    /category                   controllers.Category.add
 POST    /category/:id/delete        controllers.Category.delete(id: Long)
 
-GET     /expense                    controllers.Expense.index
+GET     /expense                    controllers.Expense.index(page: Int ?= 1)
 GET     /expense/add                controllers.Expense.addForm
 POST    /expense/add                controllers.Expense.add
 GET     /expense/:id/edit           controllers.Expense.editForm(id: Long)
