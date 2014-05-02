@@ -20,7 +20,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			@for(expense <- expenses ; val e = expense._1 ; val c = expense._2) {
+			@for(expense <- expenses ; e = expense._1 ; c = expense._2) {
 				<tr>
 					<td>@e.readableDate</td>
 					<td title="@e.id_category">@if(!c.isEmpty){@c.get.name}</td>
