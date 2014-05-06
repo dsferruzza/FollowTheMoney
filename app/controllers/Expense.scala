@@ -36,7 +36,7 @@ object Expense extends Controller {
 				BadRequest(views.html.expenseAdd(errors, models.Category.getAllForSelect))
 			},
 			data => {
-				models.Expense.create(data.date, data.id_category, data.description, data.amount.toFloat)
+				models.Expense.create(data.date, data.id_category, data.description, data.amount)
 				Redirect(routes.Expense.index())
 			}
 		)
@@ -46,7 +46,7 @@ object Expense extends Controller {
 		val expense = models.Expense.findById(id)
 		val form = expense match {
 			case Some(e) => {
-				val ed = new ExpenseData(e.date, e.id_category, e.description, BigDecimal(e.amount))
+				val ed = new ExpenseData(e.date, e.id_category, e.description, e.amount)
 				expenseForm.fill(ed)
 			}
 			case None => expenseForm

@@ -5,8 +5,8 @@ import play.api.mvc._
 
 object Analyze extends Controller {
 
-	case class YearSummary(year: Long, amount: Float, items: List[MonthSummary])
-	case class MonthSummary(year: Long, month: Long, amount: Float, items: List[models.MonthlyReport])
+	case class YearSummary(year: Long, amount: BigDecimal, items: List[MonthSummary])
+	case class MonthSummary(year: Long, month: Long, amount: BigDecimal, items: List[models.MonthlyReport])
 
 	def index = Action {
 		val monthlyReport: List[YearSummary] =

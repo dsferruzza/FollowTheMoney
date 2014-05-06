@@ -12,9 +12,9 @@ CREATE TABLE expense (
 	date date NOT NULL,
 	id_category integer NOT NULL,
 	description text DEFAULT NULL,
-	amount real NOT NULL,
+	amount numeric(7, 2) NOT NULL,
 	PRIMARY KEY (id),
-	FOREIGN KEY (id_category) REFERENCES category (id) ON DELETE SET NULL ON UPDATE CASCADE
+	FOREIGN KEY (id_category) REFERENCES category (id) ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 # --- !Downs

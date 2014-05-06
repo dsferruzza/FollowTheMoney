@@ -8,7 +8,7 @@ import models.AnormType._
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
 
-case class Expense(id: Long, date: DateTime, id_category: Long, description: Option[String], amount: Float) {
+case class Expense(id: Long, date: DateTime, id_category: Long, description: Option[String], amount: BigDecimal) {
 	def readableDate = date.toString(DateTimeFormat.forPattern("dd/MM/yyyy"))
 }
 
@@ -18,8 +18,8 @@ object Expense {
 		get[DateTime]("expense.date") ~
 		get[Long]("expense.id_category") ~
 		get[Option[String]]("expense.description") ~
-		get[Float]("expense.amount") map {
-			case id~date~id_category~description~amount => Expense(id, date, id_category, description, amount)
+		get[java.math.BigDecimal]("expense.amount") map {
+			case id~date~id_category~description~amount => Expense(id, date, id_category, description, BigDecimal(amount))
 		}
 	}
 
@@ -96,25 +96,25 @@ object Expense {
 		}
 	}
 
-	def create(date: DateTime, id_category: Long, description: Option[String], amount: Float): Option[Long] = {
+	def create(date: DateTime, id_category: Long, description: Option[String], amount: BigDecimal): Option[Long] = {
 		DB.withConnection { implicit connection =>
 			SQL("INSERT INTO expense (date, id_category, description, amount) VALUES ({date}, {id_category}, {description}, {amount})").on(
 				'date -> date,
 				'id_category -> id_category,
 				'description -> description,
-				'amount -> amount
+				'amount -> amount.bigDecimal
 			).executeInsert()
 		}
 	}
 
-	def edit(id: Long, date: DateTime, id_category: Long, description: Option[String], amount: Float): Boolean = {
+	def edit(id: Long, date: DateTime, id_category: Long, description: Option[String], amount: BigDecimal): Boolean = {
 		DB.withConnection { implicit connection =>
 			SQL("UPDATE expense SET date = {date}, id_category = {id_category}, description = {description}, amount = {amount} WHERE id = {id}").on(
 				'id -> id,
 				'date -> date,
 				'id_category -> id_category,
 				'description -> description,
-				'amount -> amount
+				'amount -> amount.bigDecimal
 			).execute()
 		}
 	}
