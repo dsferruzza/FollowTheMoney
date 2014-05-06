@@ -1,4 +1,4 @@
-@(monthlyReport: Seq[MonthlyReport])
+@(monthlyReports: Seq[controllers.Analyze.YearSummary])
 @import helper._
 
 @main("Analyze") {
@@ -6,6 +6,8 @@
 	<header class="page-header">
 		<h1>Analyze</h1>
 	</header>
+
+	<h2>Monthly Report</h2>
 
 	<table class="table table-bordered table-hover">
 		<thead>
@@ -17,13 +19,29 @@
 			</tr>
 		</thead>
 		<tbody>
-			@for(m <- monthlyReport) {
-				<tr>
-					<td>@m.year</td>
-					<td>@m.month</td>
-					<td title="@m.id_category">@m.category</td>
-					<td>@m.amount</td>
-				</tr>	
+			@for(y <- monthlyReports) {
+				<tr class="danger">
+					<td>@y.year</td>
+					<td></td>
+					<td></td>
+					<td><strong>@y.amount</strong></td>
+				</tr>
+				@for(m <- y.items) {
+					<tr class="warning">
+						<td>@m.year</td>
+						<td>@m.month</td>
+						<td></td>
+						<td><strong>@m.amount</strong></td>
+					</tr>
+					@for(mr <- m.items) {
+						<tr>
+							<td>@mr.year</td>
+							<td>@mr.month</td>
+							<td title="@mr.id_category">@mr.category</td>
+							<td>@mr.amount</td>
+						</tr>
+					}
+				}
 			}
 		</tbody>
 	</table>
