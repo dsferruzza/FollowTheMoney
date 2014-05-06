@@ -37,7 +37,10 @@ object Expense {
 
 	def nbPage: Int = (count / nbPerPage.toFloat).ceil.toInt
 
-	def calculateLimit(page: Int): (Int, Int) = ((page - 1) * nbPerPage, nbPerPage)
+	def calculateLimit(page: Int): (Int, Int) = {
+		val p = if (page.abs == 0) 1 else page.abs
+		((p - 1) * nbPerPage, nbPerPage)
+	}
 	
 	def getAll(): List[Expense] = {
 		DB.withConnection { implicit connection =>

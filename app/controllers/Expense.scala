@@ -22,8 +22,7 @@ object Expense extends Controller {
 		)(ExpenseData.apply)(ExpenseData.unapply)
 	)
 
-	def index(p: Int) = Action {
-		val page = p.abs
+	def index(page: Int) = Action {
 		Ok(views.html.expense(models.Expense.getPageWithCategory(page), (page, models.Expense.nbPage)))
 	}
 
