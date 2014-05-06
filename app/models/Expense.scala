@@ -26,6 +26,18 @@ object Expense {
 	val withCategory = Expense.simple ~ (Category.simple.?) map {
 		case expense~category => (expense, category)
 	}
+
+	val nbPerPage = 10
+
+	def count: Int = {
+		DB.withConnection { implicit connection =>
+			SQL("SELECT COUNT(id) AS nb FROM expense").apply().head[Long]("nb").toInt
+		}
+	}
+
+	def nbPage: Int = (count / nbPerPage.toFloat).ceil.toInt
+
+	def calculateLimit(page: Int): (Int, Int) = ((page - 1) * nbPerPage, nbPerPage)
 	
 	def getAll(): List[Expense] = {
 		DB.withConnection { implicit connection =>
@@ -43,6 +55,35 @@ object Expense {
 				""").as(Expense.withCategory.*)
 		}
 	}
+
+	def getSome(limit: (Int, Int)): List[Expense] = {
+		DB.withConnection { implicit connection =>
+			SQL("SELECT id, date, id_category, description, amount FROM expense ORDER BY date DESC, id ASC OFFSET {start} LIMIT {nb}").on(
+				'start -> limit._1,
+				'nb -> limit._2
+			).as(Expense.simple.*)
+		}
+	}
+
+	def getSomeWithCategory(limit: (Int, Int)): List[(Expense, Option[Category])] = {
+		DB.withConnection { implicit connection =>
+			SQL("""
+				SELECT e.id, e.date, e.id_category, e.description, e.amount, c.id, c.name
+				FROM expense AS e
+				LEFT JOIN category AS c ON c.id = e.id_category
+				ORDER BY e.date DESC, e.id ASC
+				OFFSET {start}
+				LIMIT {nb}
+				""").on(
+				'start -> limit._1,
+				'nb -> limit._2
+			).as(Expense.withCategory.*)
+		}
+	}
+
+	def getPage(page: Int): List[Expense] = getSome(calculateLimit(page))
+
+	def getPageWithCategory(page: Int): List[(Expense, Option[Category])] = getSomeWithCategory(calculateLimit(page))
 
 	def findById(id: Long): Option[Expense] = {
 		DB.withConnection { implicit connection =>

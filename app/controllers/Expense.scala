@@ -22,8 +22,9 @@ object Expense extends Controller {
 		)(ExpenseData.apply)(ExpenseData.unapply)
 	)
 
-	def index(page: Int) = Action {
-		Ok(views.html.expense(models.Expense.getAllWithCategory))
+	def index(p: Int) = Action {
+		val page = p.abs
+		Ok(views.html.expense(models.Expense.getPageWithCategory(page), (page, models.Expense.nbPage)))
 	}
 
 	def addForm = Action {
