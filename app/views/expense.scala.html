@@ -7,9 +7,6 @@
 		<h1>Expense</h1>
 	</header>
 
-	<p>@page._1 / @page._2</p>
-	<p>@if(page._1 > 1){<a href="@routes.Expense.index(page._1 - 1)">previous</a>} @if(page._1 < page._2){<a href="@routes.Expense.index(page._1 + 1)">next</a>}</p>
-
 	<p><a href="@routes.Expense.addForm" class="btn btn-success btn-lg"><span class="glyphicon glyphicon-plus-sign"></span> Add</a></p>
 
 	<table class="table table-bordered table-hover">
@@ -39,5 +36,19 @@
 			}
 		</tbody>
 	</table>
+
+	<ul class="pager">
+		@if(page._1 <= 1) {
+			<li class="previous disabled"><a href="#">&larr; Older</a></li>
+		} else {
+			<li class="previous"><a href="@routes.Expense.index(page._1 - 1)">&larr; Older</a></li>
+		}
+		<li>@page._1 / @page._2</li>
+		@if(page._1 >= page._2) {
+			<li class="next disabled"><a href="#">Newer &rarr;</a></li>
+		} else {
+			<li class="next"><a href="@routes.Expense.index(page._1 + 1)">Newer &rarr;</a></li>
+		}
+	</ul>
 
 }
