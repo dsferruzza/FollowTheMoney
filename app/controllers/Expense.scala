@@ -27,13 +27,13 @@ object Expense extends Controller {
 	}
 
 	def addForm = Action {
-		Ok(views.html.expenseAdd(expenseForm, models.Category.getAllForSelect))
+		Ok(views.html.expenseAdd(expenseForm, models.Category.getAllForSelectWithTopCategories))
 	}
 
 	def add = Action { implicit request =>
 		expenseForm.bindFromRequest.fold(
 			errors => {
-				BadRequest(views.html.expenseAdd(errors, models.Category.getAllForSelect))
+				BadRequest(views.html.expenseAdd(errors, models.Category.getAllForSelectWithTopCategories))
 			},
 			data => {
 				models.Expense.create(data.date, data.id_category, data.description, data.amount)
@@ -51,13 +51,13 @@ object Expense extends Controller {
 			}
 			case None => expenseForm
 		}
-		Ok(views.html.expenseEdit(id, form, models.Category.getAllForSelect))
+		Ok(views.html.expenseEdit(id, form, models.Category.getAllForSelectWithTopCategories))
 	}
 
 	def edit(id: Long) = Action { implicit request =>
 		expenseForm.bindFromRequest.fold(
 			errors => {
-				BadRequest(views.html.expenseEdit(id, errors, models.Category.getAllForSelect))
+				BadRequest(views.html.expenseEdit(id, errors, models.Category.getAllForSelectWithTopCategories))
 			},
 			data => {
 				models.Expense.edit(id, data.date, data.id_category, data.description, data.amount.toFloat)
