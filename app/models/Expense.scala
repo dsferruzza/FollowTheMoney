@@ -42,13 +42,13 @@ object Expense {
 		((p - 1) * nbPerPage, nbPerPage)
 	}
 	
-	def getAll(): List[Expense] = {
+	def getAll: List[Expense] = {
 		DB.withConnection { implicit connection =>
 			SQL("SELECT id, date, id_category, description, amount FROM expense ORDER BY date DESC, id ASC").as(Expense.simple.*)
 		}
 	}
 
-	def getAllWithCategory(): List[(Expense, Option[Category])] = {
+	def getAllWithCategory: List[(Expense, Option[Category])] = {
 		DB.withConnection { implicit connection =>
 			SQL("""
 				SELECT e.id, e.date, e.id_category, e.description, e.amount, c.id, c.name

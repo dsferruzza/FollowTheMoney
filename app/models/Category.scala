@@ -18,7 +18,7 @@ object Category {
 		}
 	}
 	
-	def getAll(): List[Category] = {
+	def getAll: List[Category] = {
 		DB.withConnection { implicit connection =>
 			SQL("SELECT id, name FROM category ORDER BY name ASC").as(Category.simple.*)
 		}
@@ -39,11 +39,11 @@ object Category {
 		}
 	}
 
-	def getAllForSelect(): List[(String, String)] = getAll.map(c => (c.id.toString, c.name))
+	def getAllForSelect: List[(String, String)] = getAll.map(c => (c.id.toString, c.name))
 
-	def getTopCategoriesForSelect(): List[(String, String)] = getTopCategories.map(c => (c.id.toString, c.name))
+	def getTopCategoriesForSelect: List[(String, String)] = getTopCategories.map(c => (c.id.toString, c.name))
 
-	def getAllForSelectWithTopCategories(): List[(String, String)] = getTopCategoriesForSelect ++ (("", "") +: getAllForSelect)
+	def getAllForSelectWithTopCategories: List[(String, String)] = getTopCategoriesForSelect ++ (("", "") +: getAllForSelect)
 
 	def create(name: String): Option[Long] = {
 		DB.withConnection { implicit connection =>
