@@ -54,7 +54,7 @@ object Expense {
 				SELECT e.id, e.date, e.id_category, e.description, e.amount, c.id, c.name
 				FROM expense AS e
 				LEFT JOIN category AS c ON c.id = e.id_category
-				ORDER BY e.date DESC, e.id ASC
+				ORDER BY e.date DESC, e.id DESC
 				""").as(Expense.withCategory.*)
 		}
 	}
