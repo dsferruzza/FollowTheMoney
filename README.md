@@ -14,7 +14,7 @@ I was tracking my expenses using a SQL database by hand, so I decided to build a
 
 - install a JDK and Play Framework (see http://www.playframework.com/documentation/2.3.x/Installing)
 - setup a PostgreSQL database
-- add a DB access to `conf/application.conf` or override some of its keys while lauching (see http://www.playframework.com/documentation/2.2.x/ProductionConfiguration)
+- add a DB access to `conf/application.conf` or override some of its keys while lauching (see http://www.playframework.com/documentation/2.3.x/ProductionConfiguration)
 - `activator run` (dev) or `activator stage` and then `./target/universal/stage/bin/ftm` (prod)
 
 ## License
