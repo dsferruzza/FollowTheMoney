@@ -12,9 +12,9 @@ object Expense extends Controller {
 
 	case class ExpenseData(date: DateTime, id_category: Long, description: Option[String], amount: BigDecimal)
 
-	val expenseForm = Form(
+	def expenseForm = Form(	// "def" instead of "val" so the default date is build every time
 		mapping(
-			"date" -> default(jodaDate, new DateTime()),
+			"date" -> default(jodaDate, new DateTime),
 			"id_category" -> longNumber,
 			"description" -> optional(text),
 			"amount" -> bigDecimal.verifying(min(BigDecimal(0)))
