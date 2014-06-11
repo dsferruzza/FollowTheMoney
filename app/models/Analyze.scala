@@ -21,13 +21,34 @@ object MonthlyReport {
 		}
 	}
 
-	def getAll: List[MonthlyReport] = DB.withConnection { implicit connection =>
-		SQL("""
-			SELECT EXTRACT(YEAR FROM e.date)::integer AS "year", EXTRACT(MONTH FROM e.date)::integer AS "month", MIN(e.id_category) AS "id_category", c.name AS "category", SUM(e.amount) AS "amount"
-			FROM expense AS e
-			INNER JOIN category AS c ON e.id_category = c.id
-			GROUP BY "year", "month", c.name
-			ORDER BY "year" ASC, "month" ASC, "category" ASC
-			""").as(MonthlyReport.simple.*)
+	case class YearSummary(year: Long, amount: BigDecimal, items: List[MonthSummary])
+	case class MonthSummary(year: Long, month: Long, amount: BigDecimal, items: List[models.MonthlyReport])
+
+	def getAll: List[YearSummary] = {
+		val output = DB.withConnection { implicit connection =>
+			SQL("""
+				SELECT EXTRACT(YEAR FROM e.date)::integer AS "year", EXTRACT(MONTH FROM e.date)::integer AS "month", MIN(e.id_category) AS "id_category", c.name AS "category", SUM(e.amount) AS "amount"
+				FROM expense AS e
+				INNER JOIN category AS c ON e.id_category = c.id
+				GROUP BY "year", "month", c.name
+				ORDER BY "year" ASC, "month" ASC, "category" ASC
+				""").as(MonthlyReport.simple.*)
+		}
+		output.groupBy(_.year)
+			.map { i =>
+				val monthSummaries = i._2
+						.groupBy(_.month)
+						.map { j =>
+							val amount = j._2.map(_.amount).sum
+							MonthSummary(j._2.head.year, j._2.head.month, amount, j._2.sortBy(_.category))
+						}
+						.toList
+						.sortBy(_.month)
+				val year = i._2.head.year
+				val amount = i._2.map(_.amount).sum
+				YearSummary(year, amount, monthSummaries)
+			}
+			.toList
+			.sortBy(_.year)
 	}
 }
