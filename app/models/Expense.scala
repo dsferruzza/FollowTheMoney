@@ -41,7 +41,7 @@ object Expense {
 	}
 	
 	def getAll: List[Expense] = DB.withConnection { implicit connection =>
-		SQL("SELECT id, date, id_category, description, amount FROM expense ORDER BY date DESC, id ASC").as(Expense.simple.*)
+		SQL("SELECT id, date, id_category, description, amount FROM expense ORDER BY date DESC, id DESC").as(Expense.simple.*)
 	}
 
 	def getAllWithCategory: List[(Expense, Option[Category])] = DB.withConnection { implicit connection =>
@@ -54,7 +54,7 @@ object Expense {
 	}
 
 	def getSome(limit: (Int, Int)): List[Expense] = DB.withConnection { implicit connection =>
-		SQL("SELECT id, date, id_category, description, amount FROM expense ORDER BY date DESC, id ASC OFFSET {start} LIMIT {nb}").on(
+		SQL("SELECT id, date, id_category, description, amount FROM expense ORDER BY date DESC, id DESC OFFSET {start} LIMIT {nb}").on(
 			'start -> limit._1,
 			'nb -> limit._2
 		).as(Expense.simple.*)
@@ -65,7 +65,7 @@ object Expense {
 			SELECT e.id, e.date, e.id_category, e.description, e.amount, c.id, c.name
 			FROM expense AS e
 			LEFT JOIN category AS c ON c.id = e.id_category
-			ORDER BY e.date DESC, e.id ASC
+			ORDER BY e.date DESC, e.id DESC
 			OFFSET {start}
 			LIMIT {nb}
 			""").on(
