@@ -2,6 +2,7 @@ package models
 
 import play.api.db._
 import play.api.Play.current
+import play.api.libs.json._
 import anorm._
 import anorm.SqlParser._
 import models.AnormType._
@@ -50,5 +51,32 @@ object MonthlyReport {
 			}
 			.toList
 			.sortBy(_.year)
+	}
+
+	implicit val yearSummaryWrites = new Writes[YearSummary] {
+		def writes(ys: YearSummary) = Json.obj(
+			"year" -> ys.year,
+			"amount" -> ys.amount,
+			"items" -> ys.items
+		)
+	}
+
+	implicit val monthSummaryWrites: Writes[MonthSummary] = new Writes[MonthSummary] {
+		def writes(ms: MonthSummary) = Json.obj(
+			"year" -> ms.year,
+			"month" -> ms.month,
+			"amount" -> ms.amount,
+			"items" -> ms.items
+		)
+	}
+
+	implicit val monthlyReportWrites: Writes[MonthlyReport] = new Writes[MonthlyReport] {
+		def writes(mr: MonthlyReport) = Json.obj(
+			"year" -> mr.year,
+			"month" -> mr.month,
+			"id_category" -> mr.id_category,
+			"category" -> mr.category,
+			"amount" -> mr.amount
+		)
 	}
 }

@@ -17,5 +17,7 @@ POST    /expense/:id/delete         controllers.Expense.delete(id: Long)
 
 GET     /analyze                    controllers.Analyze.index
 
+GET     /api/export                 controllers.Api.export
+
 # Assets
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

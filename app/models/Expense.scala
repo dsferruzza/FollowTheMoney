@@ -2,6 +2,7 @@ package models
 
 import play.api.db._
 import play.api.Play.current
+import play.api.libs.json._
 import anorm._
 import anorm.SqlParser._
 import models.AnormType._
@@ -107,5 +108,15 @@ object Expense {
 		SQL("DELETE FROM expense WHERE id = {id}").on(
 			'id -> id
 		).execute()
+	}
+
+	implicit val expenseWrites = new Writes[Expense] {
+		def writes(expense: Expense) = Json.obj(
+			"id" -> expense.id,
+			"date" -> expense.date.toString(DateTimeFormat.forPattern("yyyy-MM-dd")),
+			"id_category" -> expense.id_category,
+			"description" -> expense.description,
+			"amount" -> expense.amount
+		)
 	}
 }

@@ -2,7 +2,7 @@ package models
 
 import play.api.db._
 import play.api.Play.current
-
+import play.api.libs.json._
 import anorm._
 import anorm.SqlParser._
 
@@ -51,5 +51,12 @@ object Category {
 		SQL("DELETE FROM category WHERE id = {id}").on(
 			'id -> id
 		).execute()
+	}
+
+	implicit val categoryWrites = new Writes[Category] {
+		def writes(category: Category) = Json.obj(
+			"id" -> category.id,
+			"name" -> category.name
+		)
 	}
 }
