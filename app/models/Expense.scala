@@ -10,7 +10,8 @@ import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
 
 case class Expense(id: Long, date: DateTime, id_category: Long, description: Option[String], amount: BigDecimal) {
-	def readableDate = date.toString(DateTimeFormat.forPattern("dd/MM/yyyy"))
+	lazy val readableDate = date.toString(DateTimeFormat.forPattern("dd/MM/yyyy"))
+	lazy val iso8601Date = date.toString(DateTimeFormat.forPattern("yyyy-MM-dd"))
 }
 
 object Expense {
@@ -113,7 +114,7 @@ object Expense {
 	implicit val expenseWrites = new Writes[Expense] {
 		def writes(expense: Expense) = Json.obj(
 			"id" -> expense.id,
-			"date" -> expense.date.toString(DateTimeFormat.forPattern("yyyy-MM-dd")),
+			"date" -> expense.iso8601Date,
 			"id_category" -> expense.id_category,
 			"description" -> expense.description,
 			"amount" -> expense.amount
