@@ -53,10 +53,5 @@ object Category {
 		).execute()
 	}
 
-	implicit val categoryWrites = new Writes[Category] {
-		def writes(category: Category) = Json.obj(
-			"id" -> category.id,
-			"name" -> category.name
-		)
-	}
+	implicit val categoryWrites = Json.writes[Category]
 }

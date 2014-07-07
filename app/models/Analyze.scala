@@ -22,8 +22,15 @@ object MonthlyReport {
 		}
 	}
 
-	case class YearSummary(year: Long, amount: BigDecimal, items: List[MonthSummary])
 	case class MonthSummary(year: Long, month: Long, amount: BigDecimal, items: List[models.MonthlyReport])
+	object MonthSummary {
+		implicit val monthSummaryWrites = Json.writes[MonthSummary]
+	}
+
+	case class YearSummary(year: Long, amount: BigDecimal, items: List[MonthSummary])
+	object YearSummary {
+		implicit val yearSummaryWrites = Json.writes[YearSummary]
+	}
 
 	def getAll: List[YearSummary] = {
 		val output = DB.withConnection { implicit connection =>
@@ -53,30 +60,5 @@ object MonthlyReport {
 			.sortBy(_.year)
 	}
 
-	implicit val yearSummaryWrites = new Writes[YearSummary] {
-		def writes(ys: YearSummary) = Json.obj(
-			"year" -> ys.year,
-			"amount" -> ys.amount,
-			"items" -> ys.items
-		)
-	}
-
-	implicit val monthSummaryWrites: Writes[MonthSummary] = new Writes[MonthSummary] {
-		def writes(ms: MonthSummary) = Json.obj(
-			"year" -> ms.year,
-			"month" -> ms.month,
-			"amount" -> ms.amount,
-			"items" -> ms.items
-		)
-	}
-
-	implicit val monthlyReportWrites: Writes[MonthlyReport] = new Writes[MonthlyReport] {
-		def writes(mr: MonthlyReport) = Json.obj(
-			"year" -> mr.year,
-			"month" -> mr.month,
-			"id_category" -> mr.id_category,
-			"category" -> mr.category,
-			"amount" -> mr.amount
-		)
-	}
+	implicit val monthlyReportWrites = Json.writes[MonthlyReport]
 }
