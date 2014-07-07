@@ -24,12 +24,12 @@ object MonthlyReport {
 
 	case class MonthSummary(year: Long, month: Long, amount: BigDecimal, items: List[models.MonthlyReport])
 	object MonthSummary {
-		implicit val monthSummaryWrites = Json.writes[MonthSummary]
+		implicit val monthSummaryWrites: Writes[MonthSummary] = Json.writes[MonthSummary]
 	}
 
 	case class YearSummary(year: Long, amount: BigDecimal, items: List[MonthSummary])
 	object YearSummary {
-		implicit val yearSummaryWrites = Json.writes[YearSummary]
+		implicit val yearSummaryWrites: Writes[YearSummary] = Json.writes[YearSummary]
 	}
 
 	def getAll: List[YearSummary] = {
