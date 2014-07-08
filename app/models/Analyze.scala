@@ -9,9 +9,17 @@ import models.AnormType._
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
 
+/** A report of expenses for a given month and a given Category
+ * @param year The year of the report
+ * @param month The month of the report
+ * @param id_category ID of the related Category item
+ * @param category Displayed name of the related Category item
+ * @param amount Total amount paid in that context
+ */
 case class MonthlyReport(year: Long, month: Long, id_category: Long, category: String, amount: BigDecimal)
 
 object MonthlyReport {
+	/** Simple row parser */
 	val simple = {
 		get[Long]("year") ~
 		get[Long]("month") ~
@@ -22,16 +30,27 @@ object MonthlyReport {
 		}
 	}
 
-	case class MonthSummary(year: Long, month: Long, amount: BigDecimal, items: List[models.MonthlyReport])
-	object MonthSummary {
-		implicit val monthSummaryWrites: Writes[MonthSummary] = Json.writes[MonthSummary]
-	}
-
+	/** A collection of reports for a given year
+	 * @param amount Total amount paid in that context
+	 * @param items Collection of reports for the differents months of this year
+	 */
 	case class YearSummary(year: Long, amount: BigDecimal, items: List[MonthSummary])
 	object YearSummary {
+		/** JSON Writes */
 		implicit val yearSummaryWrites: Writes[YearSummary] = Json.writes[YearSummary]
 	}
 
+	/** A collection of reports for a given month
+	 * @param amount Total amount paid in that context
+	 * @param items Collection of month reports for the differents Category
+	 */
+	case class MonthSummary(year: Long, month: Long, amount: BigDecimal, items: List[models.MonthlyReport])
+	object MonthSummary {
+		/** JSON Writes */
+		implicit val monthSummaryWrites: Writes[MonthSummary] = Json.writes[MonthSummary]
+	}
+
+	/** Get all the collections of reports */
 	def getAll: List[YearSummary] = {
 		val output = DB.withConnection { implicit connection =>
 			SQL("""
@@ -60,5 +79,6 @@ object MonthlyReport {
 			.sortBy(_.year)
 	}
 
+	/** JSON Writes */
 	implicit val monthlyReportWrites = Json.writes[MonthlyReport]
 }
