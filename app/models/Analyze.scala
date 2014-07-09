@@ -50,18 +50,20 @@ object MonthlyReport {
 		implicit val monthSummaryWrites: Writes[MonthSummary] = Json.writes[MonthSummary]
 	}
 
+	/** Get all items */
+	def fetchAll: List[MonthlyReport] = DB.withConnection { implicit connection =>
+		SQL("""
+			SELECT EXTRACT(YEAR FROM e.date)::integer AS "year", EXTRACT(MONTH FROM e.date)::integer AS "month", MIN(e.id_category) AS "id_category", c.name AS "category", SUM(e.amount) AS "amount"
+			FROM expense AS e
+			INNER JOIN category AS c ON e.id_category = c.id
+			GROUP BY "year", "month", c.name
+			ORDER BY "year" ASC, "month" ASC, "category" ASC
+			""").as(MonthlyReport.simple.*)
+	}
+
 	/** Get all the collections of reports */
 	def getAll: List[YearSummary] = {
-		val output = DB.withConnection { implicit connection =>
-			SQL("""
-				SELECT EXTRACT(YEAR FROM e.date)::integer AS "year", EXTRACT(MONTH FROM e.date)::integer AS "month", MIN(e.id_category) AS "id_category", c.name AS "category", SUM(e.amount) AS "amount"
-				FROM expense AS e
-				INNER JOIN category AS c ON e.id_category = c.id
-				GROUP BY "year", "month", c.name
-				ORDER BY "year" ASC, "month" ASC, "category" ASC
-				""").as(MonthlyReport.simple.*)
-		}
-		output.groupBy(_.year)
+		fetchAll.groupBy(_.year)
 			.map { i =>
 				val monthSummaries = i._2
 						.groupBy(_.month)
