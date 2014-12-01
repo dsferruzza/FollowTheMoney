@@ -29,6 +29,7 @@
 					<td>
 						@form(routes.Expense.delete(e.id)) {
 							<a href="@routes.Expense.editForm(e.id)" class="btn btn-warning"><span class="glyphicon glyphicon-pencil"></span> Edit</a>
+							<span class="visible-xs"><br></span>
 							<button type="submit" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash"></span> Delete</button>
 						}
 					</td>
