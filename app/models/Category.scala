@@ -23,7 +23,7 @@ object Category {
 	
 	/** Get all items */
 	def getAll: List[Category] = DB.withConnection { implicit connection =>
-		SQL("SELECT id, name FROM category ORDER BY name ASC").as(Category.simple.*)
+		SQL"SELECT id, name FROM category ORDER BY name ASC".as(Category.simple.*)
 	}
 
 	/** Number of the most used items to get */
@@ -31,16 +31,14 @@ object Category {
 
 	/** Get the most used items */
 	def getTopCategories: List[Category] = DB.withConnection { implicit connection =>
-		SQL("""
+		SQL"""
 			SELECT c.id, c.name
 			FROM category AS c
 			INNER JOIN expense AS e ON c.id = e.id_category
 			GROUP BY c.id
 			ORDER BY COUNT(e.id) DESC
-			LIMIT {nb}
-			""").on(
-				'nb -> nbTopCategories
-			).as(Category.simple.*)
+			LIMIT ${nbTopCategories}
+		""".as(Category.simple.*)
 	}
 
 	/** Get all items to put them in option html tags
@@ -60,16 +58,12 @@ object Category {
 
 	/** Create an item */
 	def create(name: String): Option[Long] = DB.withConnection { implicit connection =>
-		SQL("INSERT INTO category (name) VALUES ({name})").on(
-			'name -> name
-		).executeInsert()
+		SQL"INSERT INTO category (name) VALUES (${name})".executeInsert()
 	}
 
 	/** Delete an item */
 	def delete(id: Long): Boolean = DB.withConnection { implicit connection =>
-		SQL("DELETE FROM category WHERE id = {id}").on(
-			'id -> id
-		).execute()
+		SQL"DELETE FROM category WHERE id = ${id}".execute()
 	}
 
 	/** JSON Writes */

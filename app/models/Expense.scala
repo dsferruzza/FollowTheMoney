@@ -45,7 +45,7 @@ object Expense {
 
 	/** Get the total number of expenses */
 	def count: Int = DB.withConnection { implicit connection =>
-		SQL("SELECT COUNT(id) AS nb FROM expense").apply().head[Long]("nb").toInt
+		SQL"SELECT COUNT(id) AS nb FROM expense".apply().head[Long]("nb").toInt
 	}
 
 	/** Determine the number of pages */
@@ -62,17 +62,17 @@ object Expense {
 	
 	/** Get all items */
 	def getAll: List[Expense] = DB.withConnection { implicit connection =>
-		SQL("SELECT id, date, id_category, description, amount FROM expense ORDER BY date DESC, id DESC").as(Expense.simple.*)
+		SQL"SELECT id, date, id_category, description, amount FROM expense ORDER BY date DESC, id DESC".as(Expense.simple.*)
 	}
 
 	/** Get all Expense and their Category */
 	def getAllWithCategory: List[(Expense, Option[Category])] = DB.withConnection { implicit connection =>
-		SQL("""
+		SQL"""
 			SELECT e.id, e.date, e.id_category, e.description, e.amount, c.id, c.name
 			FROM expense AS e
 			LEFT JOIN category AS c ON c.id = e.id_category
 			ORDER BY e.date DESC, e.id DESC
-			""").as(Expense.withCategory.*)
+			""".as(Expense.withCategory.*)
 	}
 
 	/** Get some of the Expense
@@ -80,10 +80,8 @@ object Expense {
 	 * @see calculateLimit
 	 */
 	def getSome(limit: (Int, Int)): List[Expense] = DB.withConnection { implicit connection =>
-		SQL("SELECT id, date, id_category, description, amount FROM expense ORDER BY date DESC, id DESC OFFSET {start} LIMIT {nb}").on(
-			'start -> limit._1,
-			'nb -> limit._2
-		).as(Expense.simple.*)
+		val (start, nb) = limit
+		SQL"SELECT id, date, id_category, description, amount FROM expense ORDER BY date DESC, id DESC OFFSET ${start} LIMIT ${nb}".as(Expense.simple.*)
 	}
 
 	/** Get some of the Expense and their Category
@@ -91,17 +89,15 @@ object Expense {
 	 * @see calculateLimit
 	 */
 	def getSomeWithCategory(limit: (Int, Int)): List[(Expense, Option[Category])] = DB.withConnection { implicit connection =>
-		SQL("""
+		val (start, nb) = limit
+		SQL"""
 			SELECT e.id, e.date, e.id_category, e.description, e.amount, c.id, c.name
 			FROM expense AS e
 			LEFT JOIN category AS c ON c.id = e.id_category
 			ORDER BY e.date DESC, e.id DESC
-			OFFSET {start}
-			LIMIT {nb}
-			""").on(
-			'start -> limit._1,
-			'nb -> limit._2
-		).as(Expense.withCategory.*)
+			OFFSET ${start}
+			LIMIT ${nb}
+		""".as(Expense.withCategory.*)
 	}
 
 	/** Get Expense for the current page
@@ -116,37 +112,22 @@ object Expense {
 
 	/** Get an item by its ID */
 	def findById(id: Long): Option[Expense] = DB.withConnection { implicit connection =>
-		SQL("SELECT id, date, id_category, description, amount FROM expense WHERE id = {id}").on(
-			'id -> id
-		).as(Expense.simple.singleOpt)
+		SQL"SELECT id, date, id_category, description, amount FROM expense WHERE id = ${id}".as(Expense.simple.singleOpt)
 	}
 
 	/** Create an item */
 	def create(date: DateTime, id_category: Long, description: Option[String], amount: BigDecimal): Option[Long] = DB.withConnection { implicit connection =>
-		SQL("INSERT INTO expense (date, id_category, description, amount) VALUES ({date}, {id_category}, {description}, {amount})").on(
-			'date -> date,
-			'id_category -> id_category,
-			'description -> description,
-			'amount -> amount.bigDecimal
-		).executeInsert()
+		SQL"INSERT INTO expense (date, id_category, description, amount) VALUES (${date}, ${id_category}, ${description}, ${amount})".executeInsert()
 	}
 
 	/** Edit an item */
 	def edit(id: Long, date: DateTime, id_category: Long, description: Option[String], amount: BigDecimal): Boolean = DB.withConnection { implicit connection =>
-		SQL("UPDATE expense SET date = {date}, id_category = {id_category}, description = {description}, amount = {amount} WHERE id = {id}").on(
-			'id -> id,
-			'date -> date,
-			'id_category -> id_category,
-			'description -> description,
-			'amount -> amount.bigDecimal
-		).execute()
+		SQL"UPDATE expense SET date = ${date}, id_category = ${id_category}, description = ${description}, amount = ${amount} WHERE id = ${id}".execute()
 	}
 
 	/** Delete an item */
 	def delete(id: Long): Boolean = DB.withConnection { implicit connection =>
-		SQL("DELETE FROM expense WHERE id = {id}").on(
-			'id -> id
-		).execute()
+		SQL"DELETE FROM expense WHERE id = ${id}".execute()
 	}
 
 	/** JSON Writes */
