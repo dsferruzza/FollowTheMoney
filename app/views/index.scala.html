@@ -5,12 +5,21 @@
 	<div class="jumbotron">
 		<h1>Follow The Money</h1>
 		<p>Keep track and analyze your expenses</p>
-		<p>
-			<a href="@routes.Category.index" class="btn btn-lg btn-primary">1. Create categories</a>
-			<a href="@routes.Expense.index()" class="btn btn-lg btn-primary">2. Write down your expenses</a>
-			<a href="@routes.Analyze.index" class="btn btn-lg btn-primary">3. Follow the money</a>
-		</p>
-		<p><a href="@routes.Api.export" class="btn btn-info"><i class="glyphicon glyphicon-export"></i> Export (Json)</a></p>
+		<div class="hidden-xs">
+			<p>
+				<a href="@routes.Category.index" class="btn btn-lg btn-primary">1. Create categories</a>
+				<a href="@routes.Expense.index()" class="btn btn-lg btn-primary">2. Write down your expenses</a>
+				<a href="@routes.Analyze.index" class="btn btn-lg btn-primary">3. Follow the money</a>
+			</p>
+			<p><a href="@routes.Api.export" class="btn btn-info"><i class="glyphicon glyphicon-export"></i> Export (Json)</a></p>
+		</div>
+		<div class="show-xs">
+			<ul>
+				<li><a href="@routes.Category.index">1. Create categories</a></li>
+				<li><a href="@routes.Expense.index()">2. Write down your expenses</a></li>
+				<li><a href="@routes.Analyze.index">3. Follow the money</a></li>
+			</ul>
+		</div>
 	</div>
 
 	<div class="page-header">
