@@ -5,7 +5,6 @@ import play.api.Play.current
 import play.api.libs.json._
 import anorm._
 import anorm.SqlParser._
-import models.AnormType._
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
 
