@@ -2,7 +2,7 @@ name := "ftm"
 
 version := "1.0-SNAPSHOT"
 
-scalaVersion := "2.11.1"
+scalaVersion := "2.11.5"
 
 resolvers += "Maven Repository" at "http://mvnrepository.com/artifact/"
 
