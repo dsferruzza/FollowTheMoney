@@ -4,6 +4,8 @@ version := "1.0-SNAPSHOT"
 
 scalaVersion := "2.11.5"
 
+scalacOptions ++= Seq("-unchecked", "-deprecation", "-feature")
+
 resolvers += "Maven Repository" at "http://mvnrepository.com/artifact/"
 
 libraryDependencies ++= Seq(
