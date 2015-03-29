@@ -4,7 +4,14 @@ version := "1.0-SNAPSHOT"
 
 scalaVersion := "2.11.6"
 
-scalacOptions ++= Seq("-unchecked", "-deprecation", "-feature")
+scalacOptions ++= Seq(
+	"-unchecked",
+	"-deprecation",
+	"-feature",
+	"-Xfatal-warnings",
+	"-Xfuture",
+	"-Xlint"
+)
 
 resolvers += "Maven Repository" at "http://mvnrepository.com/artifact/"
 
