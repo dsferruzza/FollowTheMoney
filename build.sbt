@@ -13,7 +13,7 @@ libraryDependencies ++= Seq(
   anorm,
   cache,
   "org.postgresql" % "postgresql" % "9.4-1201-jdbc41",
-  "org.webjars" % "bootstrap" % "3.3.2",
+  "org.webjars" % "bootstrap" % "3.3.4",
   "org.webjars" % "jquery" % "2.1.3"
 )
 
