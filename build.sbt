@@ -21,7 +21,7 @@ libraryDependencies ++= Seq(
   cache,
   "org.postgresql" % "postgresql" % "9.4-1201-jdbc41",
   "org.webjars" % "bootstrap" % "3.3.4",
-  "org.webjars" % "jquery" % "2.1.3"
+  "org.webjars" % "jquery" % "2.1.4"
 )
 
 lazy val root = (project in file(".")).enablePlugins(PlayScala)
