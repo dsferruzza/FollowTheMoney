@@ -4,6 +4,7 @@ import play.api.db._
 import play.api.Play.current
 import play.api.libs.json._
 import anorm._
+import anorm.JodaParameterMetaData._
 import anorm.SqlParser._
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
@@ -44,7 +45,7 @@ object Expense {
 
 	/** Get the total number of expenses */
 	def count: Int = DB.withConnection { implicit connection =>
-		SQL"SELECT COUNT(id) AS nb FROM expense".apply().head[Long]("nb").toInt
+		SQL"SELECT COUNT(id) AS nb FROM expense".as(SqlParser.int("nb").single)
 	}
 
 	/** Determine the number of pages */

@@ -4,6 +4,6 @@
 	<label for="@elements.id" class="col-sm-2 control-label">@elements.label</label>
 	<div class="col-sm-10">
 		@elements.input
-		@if(elements.hasErrors){<span class="help-block">@elements.errors(elements.lang).mkString(", ")</span>}
+		@if(elements.hasErrors){<span class="help-block">@elements.errors.mkString(", ")</span>}
 	</div>
 </div>
