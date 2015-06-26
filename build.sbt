@@ -20,7 +20,7 @@ libraryDependencies ++= Seq(
   evolutions,
   "com.typesafe.play" %% "anorm" % "2.4.0",
   "org.postgresql" % "postgresql" % "9.4-1201-jdbc41",
-  "org.webjars" % "bootstrap" % "3.3.4",
+  "org.webjars" % "bootstrap" % "3.3.5",
   "org.webjars" % "jquery" % "2.1.4"
 )
 
