@@ -2,7 +2,7 @@ name := "ftm"
 
 version := "1.0-SNAPSHOT"
 
-scalaVersion := "2.11.6"
+scalaVersion := "2.11.7"
 
 scalacOptions ++= Seq(
 	"-unchecked",
